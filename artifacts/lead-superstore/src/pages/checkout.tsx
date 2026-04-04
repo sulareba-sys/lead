@@ -10,9 +10,9 @@ import { useCreateOrder } from "@workspace/api-client-react";
 import { useToast } from "@/hooks/use-toast";
 
 const BRANCHES = [
-  { id: "ilesha_garage", label: "Lead Mall, Ilesha Garage", phone: "09134047214" },
-  { id: "omobolanle", label: "Omobolanle Branch", phone: "09134047214" },
-  { id: "ilesha", label: "Ilesha Branch", phone: "09134047214" },
+  { id: "ilesha_garage", label: "Lead Mall, Ilesha Garage", phone: "2349034000958" },
+  { id: "omobolanle", label: "Omobolanle Branch", phone: "2349034000958" },
+  { id: "ilesha", label: "Ilesha Branch", phone: "2349034000958" },
 ];
 
 const PICKUP_FEE = 450;

@@ -6,12 +6,12 @@ import Footer from "@/components/Footer";
 import CartDrawer from "@/components/CartDrawer";
 
 const services = [
-  { name: "Supermarket", icon: "🛒", desc: "Fresh groceries, household items and more", href: "/shop" },
-  { name: "Restaurant", icon: "🍽️", desc: "Delicious hot meals made fresh daily", href: "/shop?category=restaurant" },
-  { name: "Bakery", icon: "🍞", desc: "Freshly baked bread and pastries every morning", href: "/shop?category=bakery" },
-  { name: "Pastries", icon: "🥐", desc: "Sweet treats, snacks and small chops", href: "/shop?category=pastries" },
-  { name: "Barbing Salon", icon: "✂️", desc: "Professional grooming and haircuts", href: "#" },
-  { name: "Spa Treatment", icon: "💆", desc: "Relaxing spa and body treatment services", href: "#" },
+  { name: "Supermarket", photo: "https://images.unsplash.com/photo-1542838132-92c53300491e?w=600&q=80", href: "/shop" },
+  { name: "Restaurant", photo: "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=600&q=80", href: "/shop?category=restaurant" },
+  { name: "Bakery", photo: "https://images.unsplash.com/photo-1509440159596-0249088772ff?w=600&q=80", href: "/shop?category=bakery" },
+  { name: "Pastries", photo: "https://images.unsplash.com/photo-1555507036-ab1f4038808a?w=600&q=80", href: "/shop?category=pastries" },
+  { name: "Barbing Salon", photo: "https://images.unsplash.com/photo-1503951914875-452162b0f3f1?w=600&q=80", href: "#" },
+  { name: "Spa Treatment", photo: "https://images.unsplash.com/photo-1544161515-4ab6ce6db874?w=600&q=80", href: "#" },
 ];
 
 const whyChooseUs = [
@@ -104,20 +104,27 @@ export default function HomePage() {
 
       {/* Services */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-        <div className="text-center mb-10">
-          <h2 className="text-3xl font-bold text-gray-900">Our Services</h2>
-          <p className="text-gray-500 mt-2">Everything you need, all in one place</p>
+        <div className="mb-8">
+          <p className="text-orange-500 font-bold text-sm uppercase tracking-widest mb-2">Our Services</p>
+          <h2 className="text-3xl md:text-4xl font-black text-gray-900 leading-tight">Everything Under<br />One Roof</h2>
         </div>
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-6">
+        <div className="grid grid-cols-2 gap-3 md:gap-5">
           {services.map((service) => (
             <Link key={service.name} href={service.href}>
               <div
-                className="bg-white rounded-2xl p-5 md:p-6 border border-gray-100 hover:border-orange-300 hover:shadow-md transition-all cursor-pointer group"
+                className="relative rounded-2xl overflow-hidden aspect-[4/3] cursor-pointer group"
                 data-testid={`card-service-${service.name.toLowerCase().replace(/\s+/g, "-")}`}
               >
-                <div className="text-4xl mb-3 group-hover:scale-110 transition-transform inline-block">{service.icon}</div>
-                <h3 className="font-bold text-gray-900 mb-1 text-sm md:text-base">{service.name}</h3>
-                <p className="text-gray-500 text-xs md:text-sm leading-relaxed">{service.desc}</p>
+                <img
+                  src={service.photo}
+                  alt={service.name}
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent" />
+                <div className="absolute top-3 right-3 h-3 w-3 rounded-full bg-orange-500 shadow-md" />
+                <div className="absolute bottom-3 left-3">
+                  <span className="text-white font-bold text-sm md:text-base drop-shadow">{service.name}</span>
+                </div>
               </div>
             </Link>
           ))}
