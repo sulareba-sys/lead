@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { useLocation } from "wouter";
 import {
   useVerifyAdmin,
@@ -28,6 +28,7 @@ import {
   Loader2,
   ChevronDown,
   X,
+  Image as ImageIcon,
 } from "lucide-react";
 import { formatPrice } from "@/lib/utils";
 import { useToast } from "@/hooks/use-toast";
@@ -193,6 +194,17 @@ function ProductsTab() {
     imageUrl: "", branches: ["ilesha_garage", "omobolanle", "ilesha"],
     isDiscount: false, originalPrice: "", discountStartDate: "", discountEndDate: "",
   });
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  function handleImagePick(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = () => {
+      setForm(f => ({ ...f, imageUrl: reader.result as string }));
+    };
+    reader.readAsDataURL(file);
+  }
 
   function toggleBranch(bid: string) {
     setForm((f) => ({
@@ -271,7 +283,33 @@ function ProductsTab() {
               <option value="out_of_stock">Out of Stock</option>
             </select>
           </div>
-          <input placeholder="Image URL (optional)" value={form.imageUrl} onChange={(e) => setForm(f => ({ ...f, imageUrl: e.target.value }))} className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-orange-400" />
+          <div className="flex items-center gap-3">
+            <input
+              ref={fileInputRef}
+              type="file"
+              accept="image/*"
+              className="hidden"
+              onChange={handleImagePick}
+            />
+            <button
+              type="button"
+              onClick={() => fileInputRef.current?.click()}
+              className="flex items-center gap-2 border-2 border-dashed border-orange-300 text-orange-600 rounded-lg px-4 py-2 text-sm font-medium hover:bg-orange-50 transition-colors"
+            >
+              <ImageIcon className="h-4 w-4" />
+              {form.imageUrl ? "Change Photo" : "Pick from Gallery"}
+            </button>
+            {form.imageUrl && (
+              <div className="relative">
+                <img src={form.imageUrl} alt="preview" className="h-12 w-12 rounded-lg object-cover border border-gray-200" />
+                <button
+                  type="button"
+                  onClick={() => setForm(f => ({ ...f, imageUrl: "" }))}
+                  className="absolute -top-1.5 -right-1.5 bg-red-500 text-white rounded-full h-4 w-4 flex items-center justify-center text-xs leading-none"
+                >×</button>
+              </div>
+            )}
+          </div>
           <div className="flex items-center gap-2">
             <input type="checkbox" id="is-discount" checked={form.isDiscount} onChange={(e) => setForm(f => ({ ...f, isDiscount: e.target.checked }))} className="accent-orange-500" data-testid="checkbox-is-discount" />
             <label htmlFor="is-discount" className="text-sm text-gray-700">Discount product</label>

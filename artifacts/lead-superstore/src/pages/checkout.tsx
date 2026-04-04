@@ -55,6 +55,8 @@ export default function CheckoutPage() {
       return;
     }
 
+    const waUrl = `https://wa.me/${selectedBranch.phone}?text=${buildWhatsAppMessage()}`;
+
     try {
       await createOrder.mutateAsync({
         data: {
@@ -73,10 +75,9 @@ export default function CheckoutPage() {
         },
       });
 
-      const waUrl = `https://wa.me/${selectedBranch.phone}?text=${buildWhatsAppMessage()}`;
       setSubmitted(true);
       clearCart();
-      setTimeout(() => window.open(waUrl, "_blank"), 500);
+      window.location.href = waUrl;
     } catch {
       toast({ title: "Failed to place order. Please try again.", variant: "destructive" });
     }
