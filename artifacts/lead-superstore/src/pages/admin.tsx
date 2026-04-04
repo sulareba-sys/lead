@@ -199,11 +199,21 @@ function ProductsTab() {
   function handleImagePick(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0];
     if (!file) return;
-    const reader = new FileReader();
-    reader.onload = () => {
-      setForm(f => ({ ...f, imageUrl: reader.result as string }));
+    const img = new window.Image();
+    const objectUrl = URL.createObjectURL(file);
+    img.onload = () => {
+      const MAX = 800;
+      const scale = Math.min(1, MAX / Math.max(img.width, img.height));
+      const canvas = document.createElement("canvas");
+      canvas.width = Math.round(img.width * scale);
+      canvas.height = Math.round(img.height * scale);
+      const ctx = canvas.getContext("2d")!;
+      ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+      const compressed = canvas.toDataURL("image/jpeg", 0.65);
+      setForm(f => ({ ...f, imageUrl: compressed }));
+      URL.revokeObjectURL(objectUrl);
     };
-    reader.readAsDataURL(file);
+    img.src = objectUrl;
   }
 
   function toggleBranch(bid: string) {

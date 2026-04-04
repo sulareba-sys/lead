@@ -26,6 +26,7 @@ export default function CheckoutPage() {
   const [deliveryType, setDeliveryType] = useState<"pickup" | "delivery">("pickup");
   const [branch, setBranch] = useState("ilesha_garage");
   const [submitted, setSubmitted] = useState(false);
+  const [waUrl, setWaUrl] = useState("");
 
   const { toast } = useToast();
   const createOrder = useCreateOrder();
@@ -55,7 +56,7 @@ export default function CheckoutPage() {
       return;
     }
 
-    const waUrl = `https://wa.me/${selectedBranch.phone}?text=${buildWhatsAppMessage()}`;
+    const url = `https://wa.me/${selectedBranch.phone}?text=${buildWhatsAppMessage()}`;
 
     try {
       await createOrder.mutateAsync({
@@ -75,9 +76,9 @@ export default function CheckoutPage() {
         },
       });
 
+      setWaUrl(url);
       setSubmitted(true);
       clearCart();
-      window.location.href = waUrl;
     } catch {
       toast({ title: "Failed to place order. Please try again.", variant: "destructive" });
     }
@@ -92,8 +93,17 @@ export default function CheckoutPage() {
             <CheckCircle className="h-20 w-20 text-green-500 mx-auto mb-4" />
             <h1 className="text-2xl font-bold text-gray-900 mb-2">Order Placed!</h1>
             <p className="text-gray-500 mb-2">Your order <span className="font-mono font-bold text-orange-600">{serialCode}</span> has been submitted.</p>
-            <p className="text-gray-500 text-sm mb-6">A WhatsApp message was opened to confirm your order.</p>
-            <button onClick={() => setLocation("/")} className="bg-orange-500 text-white px-8 py-3 rounded-full font-semibold hover:bg-orange-600 transition-colors">
+            <p className="text-gray-500 text-sm mb-6">Tap the button below to confirm your order on WhatsApp.</p>
+            <a
+              href={waUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center justify-center gap-3 w-full bg-green-500 text-white py-4 rounded-full font-bold text-lg hover:bg-green-600 transition-colors mb-4"
+            >
+              <MessageCircle className="h-6 w-6" />
+              Open WhatsApp
+            </a>
+            <button onClick={() => setLocation("/")} className="w-full bg-orange-500 text-white px-8 py-3 rounded-full font-semibold hover:bg-orange-600 transition-colors">
               Back to Home
             </button>
           </div>
