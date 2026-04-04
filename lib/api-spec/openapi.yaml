@@ -3,20 +3,25 @@ info:
   # Do not change the title, if the title changes, the import paths will be broken
   title: Api
   version: 0.1.0
-  description: API specification
+  description: Lead Superstore API specification
 servers:
   - url: /api
     description: Base API path
 tags:
   - name: health
     description: Health operations
+  - name: products
+    description: Product management
+  - name: orders
+    description: Order management
+  - name: admin
+    description: Admin operations
 paths:
   /healthz:
     get:
       operationId: healthCheck
       tags: [health]
       summary: Health check
-      description: Returns server health status
       responses:
         "200":
           description: Healthy
@@ -24,6 +29,289 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/HealthStatus"
+
+  /products:
+    get:
+      operationId: listProducts
+      tags: [products]
+      summary: List all products
+      parameters:
+        - name: category
+          in: query
+          schema:
+            type: string
+        - name: branch
+          in: query
+          schema:
+            type: string
+        - name: search
+          in: query
+          schema:
+            type: string
+        - name: discount
+          in: query
+          schema:
+            type: boolean
+      responses:
+        "200":
+          description: List of products
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Product"
+    post:
+      operationId: createProduct
+      tags: [products]
+      summary: Create a product (admin)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateProductBody"
+      responses:
+        "201":
+          description: Created product
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Product"
+
+  /products/{id}:
+    get:
+      operationId: getProduct
+      tags: [products]
+      summary: Get a product by ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Product
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Product"
+    put:
+      operationId: updateProduct
+      tags: [products]
+      summary: Update a product (admin)
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateProductBody"
+      responses:
+        "200":
+          description: Updated product
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Product"
+    delete:
+      operationId: deleteProduct
+      tags: [products]
+      summary: Delete a product (admin)
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "204":
+          description: Deleted
+
+  /products/{id}/stock:
+    patch:
+      operationId: updateProductStock
+      tags: [products]
+      summary: Update product stock status (admin)
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateStockBody"
+      responses:
+        "200":
+          description: Updated product
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Product"
+
+  /orders:
+    get:
+      operationId: listOrders
+      tags: [orders]
+      summary: List all orders (admin)
+      parameters:
+        - name: status
+          in: query
+          schema:
+            type: string
+        - name: branch
+          in: query
+          schema:
+            type: string
+        - name: search
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: List of orders
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Order"
+    post:
+      operationId: createOrder
+      tags: [orders]
+      summary: Create an order
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateOrderBody"
+      responses:
+        "201":
+          description: Created order
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Order"
+
+  /orders/{id}:
+    get:
+      operationId: getOrder
+      tags: [orders]
+      summary: Get order by ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Order
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Order"
+    patch:
+      operationId: updateOrderStatus
+      tags: [orders]
+      summary: Update order status (admin)
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateOrderStatusBody"
+      responses:
+        "200":
+          description: Updated order
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Order"
+
+  /orders/code/{code}:
+    get:
+      operationId: getOrderByCode
+      tags: [orders]
+      summary: Get order by serial code
+      parameters:
+        - name: code
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Order
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Order"
+
+  /admin/verify:
+    post:
+      operationId: verifyAdmin
+      tags: [admin]
+      summary: Verify admin password
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AdminVerifyBody"
+      responses:
+        "200":
+          description: Verification result
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AdminVerifyResponse"
+
+  /admin/dashboard:
+    get:
+      operationId: getDashboard
+      tags: [admin]
+      summary: Get dashboard stats
+      responses:
+        "200":
+          description: Dashboard stats
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DashboardStats"
+
+  /admin/alerts:
+    get:
+      operationId: getLowStockAlerts
+      tags: [admin]
+      summary: Get low stock alerts
+      responses:
+        "200":
+          description: Low stock products
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Product"
+
 components:
   schemas:
     HealthStatus:
@@ -34,3 +322,281 @@ components:
       required:
         - status
 
+    Product:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        price:
+          type: number
+        originalPrice:
+          type: number
+          nullable: true
+        category:
+          type: string
+          enum: [food, drinks, household, bakery, restaurant, pastries]
+        stockStatus:
+          type: string
+          enum: [in_stock, low_stock, out_of_stock]
+        stockQuantity:
+          type: integer
+        imageUrl:
+          type: string
+          nullable: true
+        branches:
+          type: array
+          items:
+            type: string
+        isDiscount:
+          type: boolean
+        discountStartDate:
+          type: string
+          nullable: true
+        discountEndDate:
+          type: string
+          nullable: true
+        createdAt:
+          type: string
+      required:
+        - id
+        - name
+        - price
+        - category
+        - stockStatus
+        - stockQuantity
+        - branches
+        - isDiscount
+        - createdAt
+
+    CreateProductBody:
+      type: object
+      properties:
+        name:
+          type: string
+        price:
+          type: number
+        originalPrice:
+          type: number
+          nullable: true
+        category:
+          type: string
+          enum: [food, drinks, household, bakery, restaurant, pastries]
+        stockStatus:
+          type: string
+          enum: [in_stock, low_stock, out_of_stock]
+        stockQuantity:
+          type: integer
+        imageUrl:
+          type: string
+          nullable: true
+        branches:
+          type: array
+          items:
+            type: string
+        isDiscount:
+          type: boolean
+        discountStartDate:
+          type: string
+          nullable: true
+        discountEndDate:
+          type: string
+          nullable: true
+      required:
+        - name
+        - price
+        - category
+        - stockStatus
+        - stockQuantity
+        - branches
+        - isDiscount
+
+    UpdateProductBody:
+      type: object
+      properties:
+        name:
+          type: string
+        price:
+          type: number
+        originalPrice:
+          type: number
+          nullable: true
+        category:
+          type: string
+          enum: [food, drinks, household, bakery, restaurant, pastries]
+        stockStatus:
+          type: string
+          enum: [in_stock, low_stock, out_of_stock]
+        stockQuantity:
+          type: integer
+        imageUrl:
+          type: string
+          nullable: true
+        branches:
+          type: array
+          items:
+            type: string
+        isDiscount:
+          type: boolean
+        discountStartDate:
+          type: string
+          nullable: true
+        discountEndDate:
+          type: string
+          nullable: true
+
+    UpdateStockBody:
+      type: object
+      properties:
+        stockStatus:
+          type: string
+          enum: [in_stock, low_stock, out_of_stock]
+        stockQuantity:
+          type: integer
+      required:
+        - stockStatus
+
+    Order:
+      type: object
+      properties:
+        id:
+          type: integer
+        serialCode:
+          type: string
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/OrderItem"
+        customerLocation:
+          type: string
+        deliveryType:
+          type: string
+          enum: [pickup, delivery]
+        deliveryFee:
+          type: number
+        totalPrice:
+          type: number
+        branch:
+          type: string
+        status:
+          type: string
+          enum: [pending, processing, delivered, returned, cancelled]
+        notes:
+          type: string
+          nullable: true
+        createdAt:
+          type: string
+      required:
+        - id
+        - serialCode
+        - items
+        - customerLocation
+        - deliveryType
+        - deliveryFee
+        - totalPrice
+        - branch
+        - status
+        - createdAt
+
+    OrderItem:
+      type: object
+      properties:
+        productId:
+          type: integer
+        productName:
+          type: string
+        quantity:
+          type: integer
+        price:
+          type: number
+      required:
+        - productId
+        - productName
+        - quantity
+        - price
+
+    CreateOrderBody:
+      type: object
+      properties:
+        serialCode:
+          type: string
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/OrderItem"
+        customerLocation:
+          type: string
+        deliveryType:
+          type: string
+          enum: [pickup, delivery]
+        deliveryFee:
+          type: number
+        totalPrice:
+          type: number
+        branch:
+          type: string
+      required:
+        - serialCode
+        - items
+        - customerLocation
+        - deliveryType
+        - deliveryFee
+        - totalPrice
+        - branch
+
+    UpdateOrderStatusBody:
+      type: object
+      properties:
+        status:
+          type: string
+          enum: [pending, processing, delivered, returned, cancelled]
+        notes:
+          type: string
+          nullable: true
+      required:
+        - status
+
+    AdminVerifyBody:
+      type: object
+      properties:
+        password:
+          type: string
+      required:
+        - password
+
+    AdminVerifyResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        token:
+          type: string
+          nullable: true
+      required:
+        - success
+
+    DashboardStats:
+      type: object
+      properties:
+        totalOrdersToday:
+          type: integer
+        revenueToday:
+          type: number
+        pendingOrders:
+          type: integer
+        totalProducts:
+          type: integer
+        lowStockCount:
+          type: integer
+        recentOrders:
+          type: array
+          items:
+            $ref: "#/components/schemas/Order"
+      required:
+        - totalOrdersToday
+        - revenueToday
+        - pendingOrders
+        - totalProducts
+        - lowStockCount
+        - recentOrders

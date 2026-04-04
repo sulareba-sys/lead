@@ -1,0 +1,444 @@
+Lead Superstore E-Commerce Website Specifications
+
+1. General Design
+	•	Color scheme: Orange and White
+	•	Layout: Simple, modern, premium feel
+	•	Hero Section:
+	•	Add intro animation (fade-in or sliding text) at top:
+Example: “Welcome to Lead Superstore”
+	•	Immediately gives a premium impression
+	•	Tagline: “We Have It All”
+
+⸻
+
+2. Services / Sections
+
+Website must showcase the following services:
+	•	Supermarket
+	•	Restaurant
+	•	Bakery
+	•	Pastries
+	•	Barbing Salon
+	•	Spa Treatment
+
+Include “Why Choose Us” Section:
+	•	✔ Affordable Prices
+	•	✔ Quality Products
+	•	✔ Multiple Locations
+	•	✔ Fast Delivery
+	•	✔ Friendly Service
+
+⸻
+
+3. Locations
+
+Lead Mall, Ilesha Garage, Osogbo
+	•	Phone: 0913-404-7214
+	•	Address: No 6, Line B, Oke Ijetu, Off Ilesha Garage roundabout, Osogbo
+
+Lead Superstore, Omobolanle Branch
+	•	Phone: 0703-994-5498
+	•	Address: KM 6, Beside MRS Filling Station, Ofatedo Junction, Iwo/Ibadan Rd, Omobolanle, Osogbo
+
+Lead Superstore, Ilesha Branch
+	•	Phone: 0706-653-4360
+	•	Address: No 62A, Isokun Street, Opposite Bovas Filling Station, Ilesha
+
+For each location:
+	•	Include “Get Directions” button linking to Google Maps
+
+⸻
+
+4. Delivery & Pickup
+	•	Highlight delivery clearly:
+	•	Example: 🟧 “We Deliver to Your Doorstep”
+	•	Fees:
+	•	Pickup: 450
+	•	Delivery: 1650
+	•	Display “In Stock” / “Low Stock” / “Out of Stock” for each product
+	•	Admin should be able to toggle stock status
+
+⸻
+
+5. Product Catalog & Categories
+
+Categories:
+	•	All
+	•	Food
+	•	Drinks
+	•	Household
+	•	Bakery
+	•	Each product shows:
+	•	Name
+	•	Price
+	•	Stock status
+	•	Add to cart button
+
+Cart & WhatsApp Ordering:
+	1.	Customer selects products and quantity
+	2.	Customer chooses Pickup or Delivery
+	3.	Cart shows:
+	•	Items selected
+	•	Total price
+	•	Delivery option & fee
+	4.	On checkout, the system automatically sends WhatsApp message to store with this template:
+Hello,
+I want to make an order from Lead Superstore.
+Discount bread three: 4000
+Bread one:1000
+Spaghetti two: 1000
+Store Location: Ilesha Garage
+Customer location:
+Delivery or Pickup: pickup
+Pickup fee: 450
+Total price: 6450
+Order code: ls:624bs
+Order code must match admin portal record
+	•	Customers do not need to create an account
+6. Admin Portal
+	•	Password: lead@99
+	•	Features:
+	1.	Post Original Products
+	2.	Post Discount Products (with option to select which branch the discount applies to)
+	3.	Delete any product
+	4.	Track all orders (order codes match WhatsApp messages)
+	5.	Easy image upload from phone gallery
+	6.	Toggle stock status (In Stock / Out of Stock / Low Stock)
+	7.	Hidden, minimal layout (doesn’t take much space on screen)
+
+Discount Product Specifics:
+	•	Must be easy to distinguish from original products
+	•	Can assign discount availability to one or multiple branches
+
+⸻
+
+7. Search
+	•	Add search bar at top of page for customers to find products quickly
+
+⸻
+
+8. Additional Functionalities
+	•	Smooth user experience with animated intro
+	•	Automatic fee addition for pickup or delivery
+	•	Order list sent directly to WhatsApp in structured format
+	•	Stock status for products to simulate real store inventory
+	•	Admin portal allows instant update of product availability
+
+
+
+
+
+Build a full-featured e-commerce website for Lead Superstore with admin portal, WhatsApp ordering, multi-branch system, and order tracking.
+
+-----------------------------------
+GENERAL DESIGN
+-----------------------------------
+- Color: Orange and White
+- Clean, modern, mobile-first UI
+- Hero section with animation:
+  "Welcome to Lead Superstore"
+- Tagline: "We Have It All"
+
+-----------------------------------
+SERVICES
+-----------------------------------
+- Supermarket
+- Restaurant
+- Bakery
+- Pastries
+- Barbing Salon
+- Spa Treatment
+
+-----------------------------------
+PRODUCT SYSTEM
+-----------------------------------
+- Categories:
+  - All
+  - Food
+  - Drinks
+  - Household
+  - Bakery
+
+- Each product must have:
+  - Name
+  - Price
+  - Image
+  - Category
+  - Stock quantity
+  - Branch availability
+  - Status:
+    - In Stock
+    - Low Stock
+    - Out of Stock
+
+-----------------------------------
+SEARCH
+-----------------------------------
+- Add search bar at top
+- Filter products instantly
+
+-----------------------------------
+CART SYSTEM
+-----------------------------------
+- Add to cart
+- Show selected items
+- Show total price
+- Select:
+  - Pickup (450)
+  - Delivery (1650)
+
+-----------------------------------
+SERIAL CODE SYSTEM
+-----------------------------------
+- Generate code when first item is added:
+  Format: ORD-YYYYMMDD-XXXX
+- Persist code (local storage)
+- Same code used everywhere:
+  - Cart
+  - Checkout
+  - Admin
+  - WhatsApp
+- Do NOT regenerate code
+
+-----------------------------------
+ORDER SYSTEM
+-----------------------------------
+- Store:
+  - Serial code
+  - Items
+  - Customer location
+  - Delivery type
+  - Total
+  - Date/time
+  - Status
+
+-----------------------------------
+ORDER STATUS
+-----------------------------------
+- Pending (default)
+- Processing
+- Delivered
+- Returned
+- Cancelled
+
+-----------------------------------
+WHATSAPP ORDER
+-----------------------------------
+Auto-generate message:
+
+Hello,
+I want to make an order from Lead Superstore.
+
+Order ID: ORD-XXXX
+Status: Pending
+
+Items:
+[List items]
+
+Store Location: [selected branch]
+Customer Location: [input]
+Delivery Type: Pickup/Delivery
+Fee: [auto]
+
+Total: XXXX
+
+-----------------------------------
+ADMIN PORTAL (Password: lead@99)
+
+The logic is clean. Now double-tapping (or double-clicking) the logo in the footer navigates to /admin, and a single tap still goes to the homepage. The "Staff Portal" link is removed so it's completely hidden.
+
+-----------------------------------
+
+Dashboard:
+- Total orders today
+- Revenue
+- Pending orders
+- Low stock alerts
+
+-----------------------------------
+ORDER MANAGEMENT
+-----------------------------------
+- View all orders
+- Search by serial code
+- Filter by:
+  - Status
+  - Branch
+
+- Change order status manually
+- Add notes
+
+-----------------------------------
+BRANCH SYSTEM
+-----------------------------------
+Branches:
+- Ilesha Garage
+- Omobolanle
+- Ilesha
+
+- Products assigned to branches
+- Orders linked to branch
+- Filter orders per branch
+
+-----------------------------------
+DISCOUNT SYSTEM
+-----------------------------------
+- Add discount products
+- Include:
+  - Original price
+  - Discount price
+  - Start date
+  - End date
+
+- Auto activate/deactivate discount
+
+-----------------------------------
+STOCK SYSTEM
+-----------------------------------
+- Track quantity
+- Auto show:
+  - In Stock
+  - Low Stock
+  - Out of Stock
+
+- Admin can update stock
+
+-----------------------------------
+SMART ALERTS
+-----------------------------------
+- Notify admin:
+  "Low Stock: [Product]"
+
+-----------------------------------
+INVOICE SYSTEM
+-----------------------------------
+- Generate receipt:
+  - Serial code
+  - Items
+  - Total
+- Download or share via WhatsApp
+
+-----------------------------------
+BULK PRODUCT UPLOAD
+-----------------------------------
+- Upload multiple products:
+  - CSV file OR
+  - Multiple images
+
+- Admin can:
+  - Preview
+  - Edit before saving
+
+-----------------------------------
+EXTRA FEATURES
+-----------------------------------
+- “We Deliver to Your Doorstep” highlight
+- Get Directions button (Google Maps)
+- Hidden admin access (/admin)
+- No login required for customers
+
+-----------------------------------
+FINAL RULES
+-----------------------------------
+- Serial code must never change
+- Admin + WhatsApp must match
+- System must be mobile-friendly
+
+1. Make service cards clickable with proper links
+2. Add Restaurant & Pastries categories to the shop (with URL param support)
+3. Create Barbing Salon and Spa Treatment info pages
+4. Wire up all the new routes
+5. Seed some Restaurant & Pastries products
+
+
+1. Serial Code (Cart Stage)
+	•	Generate a unique serial code immediately when items are added to cart.
+•	Display the serial code on the cart page.
+•	The code must persist and never change throughout the entire process.
+
+⸻
+
+2. Order Flow Consistency
+	•	The same serial code from the cart must be used for:
+•	Checkout page
+•	Final order record
+•	Admin dashboard
+•	WhatsApp message
+•	Do NOT generate a new code at checkout.
+
+⸻
+
+3. Database Storage
+
+Each order must store:
+	•	Serial Code
+•	Customer details
+•	Ordered items
+•	Total price
+•	Date/time
+•	Order status (see below)
+
+⸻
+
+4. Order Status System (IMPORTANT)
+
+Add a manual status control system in the admin portal.
+
+Each order must have a status field with options:
+	•	Pending
+•	Processing
+•	Delivered
+•	Returned
+•	Cancelled
+
+⸻
+
+5. Admin Control
+•	Admin must be able to:
+•	Change order status manually
+•	View all orders with their serial codes
+•	Search orders using serial code
+•	Status updates should reflect instantly in the system.
+
+⸻
+
+6. WhatsApp Integration
+•	Every WhatsApp order message must include:
+•	Serial Code
+•	Order details
+•	Current status (default = Pending)
+•	Example:
+“Order ID: LS:36hs4hd
+Items: …”
+
+⸻
+
+7. Cart Persistence 
+	•	If user refreshes or returns, keep:
+•	Same cart items
+•	Same serial code
+•	Only generate a new code if cart is cleared.
+
+⸻
+
+8. Serial Code Format
+
+Use format:
+Ls_ga631g
+Example:Ls_ha516d
+•	Must be unique
+•	Auto-increment for each new cart/order
+
+⸻
+
+🎯 FINAL GOAL
+
+A system where:
+	•	Serial code starts from the cart
+•	Stays the same everywhere
+•	Admin can control order status manually
+•	WhatsApp, admin, and database all show the exact same order info
+
+
+
+
+
