@@ -59,48 +59,38 @@ export default function HomePage() {
       <CartDrawer open={cartOpen} onClose={() => setCartOpen(false)} onCartChange={() => setCartVersion(v => v + 1)} />
 
       {/* Hero Section */}
-      <section className="relative bg-gradient-to-br from-orange-500 via-orange-400 to-amber-400 text-white overflow-hidden">
-        <div className="absolute inset-0 opacity-10">
-          <div className="absolute top-10 left-10 h-32 w-32 rounded-full bg-white" />
-          <div className="absolute bottom-0 right-20 h-48 w-48 rounded-full bg-white" />
-          <div className="absolute top-1/2 right-1/3 h-20 w-20 rounded-full bg-white" />
-        </div>
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 md:py-28">
-          <div
-            className="transition-all duration-1000 ease-out"
-            style={{
-              opacity: heroVisible ? 1 : 0,
-              transform: heroVisible ? "translateY(0)" : "translateY(30px)",
-            }}
-          >
-            <p className="text-orange-100 text-sm font-medium uppercase tracking-widest mb-3">Welcome to</p>
-            <h1 className="text-4xl md:text-6xl font-black leading-tight mb-4 drop-shadow-sm">
-              Lead Superstore
-            </h1>
-            <p className="text-xl md:text-2xl font-semibold text-orange-100 mb-8">We Have It All</p>
-            <div className="flex flex-col sm:flex-row gap-4">
-              <Link href="/shop">
-                <button className="bg-white text-orange-600 font-bold px-8 py-3 rounded-full hover:bg-orange-50 transition-colors shadow-lg" data-testid="button-shop-now">
-                  Shop Now
-                </button>
-              </Link>
-              <a href="#locations">
-                <button className="border-2 border-white text-white font-bold px-8 py-3 rounded-full hover:bg-white/10 transition-colors">
-                  Find a Branch
-                </button>
-              </a>
-            </div>
+      <section className="relative min-h-[88vh] flex items-center overflow-hidden bg-black">
+        <img
+          src="https://images.unsplash.com/photo-1578916171728-46686eac8d58?w=1400&q=85"
+          alt="Lead Superstore"
+          className="absolute inset-0 w-full h-full object-cover opacity-50"
+        />
+        <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/50 to-transparent" />
+
+        <div
+          className="relative px-6 sm:px-10 lg:px-16 py-24 w-full transition-all duration-1000 ease-out"
+          style={{ opacity: heroVisible ? 1 : 0, transform: heroVisible ? "translateY(0)" : "translateY(30px)" }}
+        >
+          <div className="w-10 h-1 bg-orange-500 mb-5 rounded-full" />
+          <h1 className="text-5xl md:text-7xl font-black leading-none mb-3">
+            <span className="text-white block">LEAD</span>
+            <span className="text-orange-500 block">SUPERSTORE</span>
+          </h1>
+          <p className="text-gray-300 text-lg md:text-xl font-medium mb-10">We Have It All</p>
+          <Link href="/shop">
+            <button
+              className="bg-orange-500 text-white font-bold px-8 py-4 rounded-xl hover:bg-orange-600 transition-colors shadow-lg flex items-center gap-2 text-base"
+              data-testid="button-shop-now"
+            >
+              Shop Now →
+            </button>
+          </Link>
+          <div className="mt-10 inline-flex items-center gap-2 bg-black/50 text-white text-sm font-medium px-4 py-2.5 rounded-full border border-white/10">
+            <Truck className="h-4 w-4 text-orange-400" />
+            We Deliver to Your Doorstep
           </div>
         </div>
       </section>
-
-      {/* Delivery Banner */}
-      <div className="bg-orange-500 text-white text-center py-3 px-4">
-        <p className="font-semibold flex items-center justify-center gap-2 text-sm md:text-base">
-          <Truck className="h-4 w-4" />
-          We Deliver to Your Doorstep — Pickup: ₦450 | Delivery: ₦1,650
-        </p>
-      </div>
 
       {/* Services */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
