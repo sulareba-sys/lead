@@ -1,9 +1,11 @@
 import { useState, useEffect } from "react";
 import { Link } from "wouter";
-import { CheckCircle, MapPin, Phone, Truck, Package, Clock, Star } from "lucide-react";
+import { CheckCircle, MapPin, Phone, Truck, Tag, ArrowRight } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import CartDrawer from "@/components/CartDrawer";
+import ProductCard from "@/components/ProductCard";
+import { useListProducts } from "@workspace/api-client-react";
 
 const services = [
   { name: "Supermarket", photo: "https://images.unsplash.com/photo-1542838132-92c53300491e?w=600&q=80", href: "/shop" },
@@ -47,6 +49,10 @@ export default function HomePage() {
   const [cartOpen, setCartOpen] = useState(false);
   const [cartVersion, setCartVersion] = useState(0);
   const [heroVisible, setHeroVisible] = useState(false);
+
+  const { data: allProducts } = useListProducts({});
+  const featuredProducts = allProducts?.filter((p) => !p.isDiscount).slice(0, 4) ?? [];
+  const discountProducts = allProducts?.filter((p) => p.isDiscount) ?? [];
 
   useEffect(() => {
     const timer = setTimeout(() => setHeroVisible(true), 100);
@@ -137,6 +143,75 @@ export default function HomePage() {
           </div>
         </div>
       </section>
+
+      {/* Featured Products */}
+      {featuredProducts.length > 0 && (
+        <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+          <div className="flex items-end justify-between mb-6">
+            <div>
+              <p className="text-orange-500 font-bold text-sm uppercase tracking-widest mb-1">Fresh Picks</p>
+              <h2 className="text-2xl md:text-3xl font-black text-gray-900">Our Products</h2>
+            </div>
+            <Link href="/shop">
+              <button className="flex items-center gap-1.5 text-orange-500 font-semibold text-sm hover:gap-2.5 transition-all">
+                More <ArrowRight className="h-4 w-4" />
+              </button>
+            </Link>
+          </div>
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+            {featuredProducts.map((p) => (
+              <ProductCard
+                key={p.id}
+                id={p.id}
+                name={p.name}
+                price={p.price}
+                originalPrice={p.originalPrice}
+                stockStatus={p.stockStatus}
+                imageUrl={p.imageUrl}
+                isDiscount={p.isDiscount}
+                onCartChange={() => setCartVersion(v => v + 1)}
+              />
+            ))}
+          </div>
+        </section>
+      )}
+
+      {/* Discount Products */}
+      {discountProducts.length > 0 && (
+        <section className="bg-orange-50 py-12">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="flex items-end justify-between mb-6">
+              <div>
+                <div className="flex items-center gap-2 mb-1">
+                  <Tag className="h-4 w-4 text-orange-500" />
+                  <p className="text-orange-500 font-bold text-sm uppercase tracking-widest">Special Offers</p>
+                </div>
+                <h2 className="text-2xl md:text-3xl font-black text-gray-900">Discount Products</h2>
+              </div>
+              <Link href="/shop?tab=discount">
+                <button className="flex items-center gap-1.5 text-orange-500 font-semibold text-sm hover:gap-2.5 transition-all">
+                  View All <ArrowRight className="h-4 w-4" />
+                </button>
+              </Link>
+            </div>
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+              {discountProducts.slice(0, 4).map((p) => (
+                <ProductCard
+                  key={p.id}
+                  id={p.id}
+                  name={p.name}
+                  price={p.price}
+                  originalPrice={p.originalPrice}
+                  stockStatus={p.stockStatus}
+                  imageUrl={p.imageUrl}
+                  isDiscount={p.isDiscount}
+                  onCartChange={() => setCartVersion(v => v + 1)}
+                />
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
 
       {/* Locations */}
       <section id="locations" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">

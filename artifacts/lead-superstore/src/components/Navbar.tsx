@@ -46,6 +46,9 @@ export default function Navbar({ onCartClick, searchQuery, onSearchChange, showS
             <Link href="/shop" className={`text-sm font-medium transition-colors ${location === "/shop" ? "text-orange-500" : "text-gray-700 hover:text-orange-500"}`}>
               Shop
             </Link>
+            <Link href="/shop?tab=discount" className={`text-sm font-medium transition-colors text-gray-700 hover:text-orange-500 flex items-center gap-1`}>
+              <span className="text-orange-500">%</span> Discount
+            </Link>
             <button
               onClick={onCartClick}
               className="relative flex items-center gap-1.5 bg-orange-500 text-white px-4 py-2 rounded-full text-sm font-medium hover:bg-orange-600 transition-colors"
@@ -101,6 +104,10 @@ export default function Navbar({ onCartClick, searchQuery, onSearchChange, showS
         <div className="md:hidden border-t border-orange-100 bg-white px-4 py-4 space-y-3">
           <Link href="/" onClick={() => setMenuOpen(false)} className="block text-gray-700 font-medium py-2">Home</Link>
           <Link href="/shop" onClick={() => setMenuOpen(false)} className="block text-gray-700 font-medium py-2">Shop</Link>
+          <Link href="/shop?tab=discount" onClick={() => setMenuOpen(false)} className="block font-medium py-2 flex items-center gap-1.5">
+            <span className="text-orange-500 font-bold">%</span>
+            <span className="text-orange-600 font-semibold">Discount Product</span>
+          </Link>
         </div>
       )}
     </nav>

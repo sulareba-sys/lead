@@ -9,6 +9,7 @@ import { Loader2 } from "lucide-react";
 
 const CATEGORIES = [
   { id: "all", label: "All" },
+  { id: "discount", label: "🏷️ Discount" },
   { id: "food", label: "Food" },
   { id: "drinks", label: "Drinks" },
   { id: "household", label: "Household" },
@@ -20,21 +21,27 @@ const CATEGORIES = [
 export default function ShopPage() {
   const search = useSearch();
   const params = new URLSearchParams(search);
-  const initialCategory = params.get("category") ?? "all";
+  const initialCategory = params.get("tab") === "discount" ? "discount" : (params.get("category") ?? "all");
 
   const [activeCategory, setActiveCategory] = useState(initialCategory);
   const [searchQuery, setSearchQuery] = useState("");
   const [cartOpen, setCartOpen] = useState(false);
   const [cartVersion, setCartVersion] = useState(0);
 
-  const { data: products, isLoading } = useListProducts(
-    activeCategory !== "all" || searchQuery
+  const isDiscountTab = activeCategory === "discount";
+
+  const { data: allProducts, isLoading } = useListProducts(
+    !isDiscountTab && (activeCategory !== "all" || searchQuery)
       ? {
           ...(activeCategory !== "all" ? { category: activeCategory } : {}),
           ...(searchQuery ? { search: searchQuery } : {}),
         }
       : {}
   );
+
+  const products = isDiscountTab
+    ? allProducts?.filter((p) => p.isDiscount)
+    : allProducts;
 
   return (
     <div className="min-h-screen flex flex-col bg-[hsl(30,20%,98%)]">
