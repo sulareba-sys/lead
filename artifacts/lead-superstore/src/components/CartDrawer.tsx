@@ -23,6 +23,7 @@ interface CartDrawerProps {
 export default function CartDrawer({ open, onClose, onCartChange }: CartDrawerProps) {
   const [deliveryType, setDeliveryType] = useState<"pickup" | "delivery">("pickup");
   const [branch, setBranch] = useState("ilesha_garage");
+  const [deliveryAddress, setDeliveryAddress] = useState("");
   const [ordering, setOrdering] = useState(false);
   const createOrder = useCreateOrder();
 
@@ -45,8 +46,11 @@ export default function CartDrawer({ open, onClose, onCartChange }: CartDrawerPr
 
   function buildWaMessage() {
     const items = cart.map((i) => `${i.productName} x${i.quantity}: ${formatPrice(i.price * i.quantity)}`).join("\n");
+    const locationLine = deliveryType === "delivery" && deliveryAddress.trim()
+      ? `\nDelivery Address: ${deliveryAddress.trim()}`
+      : "";
     return encodeURIComponent(
-      `Hello, I want to make an order from Lead Superstore.\n\nOrder ID: ${serialCode}\n\nItems:\n${items}\n\nBranch: ${selectedBranch.label}\nDelivery: ${deliveryType === "pickup" ? "Pickup" : "Home Delivery"}\nFee: ${formatPrice(fee)}\nTotal: ${formatPrice(total)}`
+      `Hello, I want to make an order from Lead Superstore.\n\nOrder ID: ${serialCode}\n\nItems:\n${items}\n\nBranch: ${selectedBranch.label}\nDelivery: ${deliveryType === "pickup" ? "Pickup" : "Home Delivery"}${locationLine}\nFee: ${formatPrice(fee)}\nTotal: ${formatPrice(total)}`
     );
   }
 
@@ -58,7 +62,7 @@ export default function CartDrawer({ open, onClose, onCartChange }: CartDrawerPr
         data: {
           serialCode: serialCode!,
           items: cart.map((i) => ({ productId: i.productId, productName: i.productName, quantity: i.quantity, price: i.price })),
-          customerLocation: selectedBranch.label,
+          customerLocation: deliveryType === "delivery" && deliveryAddress.trim() ? deliveryAddress.trim() : selectedBranch.label,
           deliveryType,
           deliveryFee: fee,
           totalPrice: total,
@@ -171,6 +175,20 @@ export default function CartDrawer({ open, onClose, onCartChange }: CartDrawerPr
                   </select>
                 </div>
               </div>
+
+              {/* Delivery address - only shows when Delivery is selected */}
+              {deliveryType === "delivery" && (
+                <div className="mt-4">
+                  <p className="text-xs text-gray-500 mb-1.5 font-medium">Delivery Address <span className="text-orange-500">*</span></p>
+                  <textarea
+                    value={deliveryAddress}
+                    onChange={(e) => setDeliveryAddress(e.target.value)}
+                    placeholder="Enter your full delivery address..."
+                    className="w-full border-2 border-orange-200 bg-orange-50/40 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:border-orange-400 resize-none placeholder:text-gray-400"
+                    rows={3}
+                  />
+                </div>
+              )}
 
               {/* Price summary */}
               <div className="mt-5 space-y-2.5 border-t border-gray-100 pt-4">

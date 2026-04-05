@@ -10,8 +10,8 @@ const services = [
   { name: "Restaurant", photo: "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=600&q=80", href: "/shop?category=restaurant" },
   { name: "Bakery", photo: "https://images.unsplash.com/photo-1509440159596-0249088772ff?w=600&q=80", href: "/shop?category=bakery" },
   { name: "Pastries", photo: "https://images.unsplash.com/photo-1555507036-ab1f4038808a?w=600&q=80", href: "/shop?category=pastries" },
-  { name: "Barbing Salon", photo: "https://images.unsplash.com/photo-1503951914875-452162b0f3f1?w=600&q=80", href: "#" },
-  { name: "Spa Treatment", photo: "https://images.unsplash.com/photo-1544161515-4ab6ce6db874?w=600&q=80", href: "#" },
+  { name: "Barbing Salon", photo: "https://images.unsplash.com/photo-1503951914875-452162b0f3f1?w=600&q=80", href: "/services/barbing" },
+  { name: "Spa Treatment", photo: "https://images.unsplash.com/photo-1544161515-4ab6ce6db874?w=600&q=80", href: "/services/spa" },
 ];
 
 const whyChooseUs = [
@@ -102,7 +102,7 @@ export default function HomePage() {
           {services.map((service) => (
             <Link key={service.name} href={service.href}>
               <div
-                className="relative rounded-2xl overflow-hidden aspect-[4/3] cursor-pointer group"
+                className="relative rounded-2xl overflow-hidden aspect-[3/4] cursor-pointer group"
                 data-testid={`card-service-${service.name.toLowerCase().replace(/\s+/g, "-")}`}
               >
                 <img

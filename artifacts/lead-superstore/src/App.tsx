@@ -7,6 +7,8 @@ import HomePage from "@/pages/home";
 import ShopPage from "@/pages/shop";
 import CheckoutPage from "@/pages/checkout";
 import AdminPage from "@/pages/admin";
+import BarbingPage from "@/pages/services/barbing";
+import SpaPage from "@/pages/services/spa";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -24,6 +26,8 @@ function Router() {
       <Route path="/shop" component={ShopPage} />
       <Route path="/checkout" component={CheckoutPage} />
       <Route path="/admin" component={AdminPage} />
+      <Route path="/services/barbing" component={BarbingPage} />
+      <Route path="/services/spa" component={SpaPage} />
       <Route component={NotFound} />
     </Switch>
   );
