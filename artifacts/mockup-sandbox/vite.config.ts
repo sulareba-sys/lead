@@ -30,12 +30,17 @@ if (!basePath) {
 export default defineConfig({
   base: basePath,
   plugins: [
-    mockupPreviewPlugin(),
-    react(),
-    tailwindcss(),
-    runtimeErrorOverlay(),
 
-      : []),
+  mockupPreviewPlugin(),
+
+  react(),
+
+  tailwindcss(),
+
+  runtimeErrorOverlay(),
+
+],
+    
   ],
   resolve: {
     alias: {
